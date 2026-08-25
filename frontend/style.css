@@ -1,13 +1,14 @@
 :root {
-    --bg-primary: #0b0f19;
-    --bg-surface: rgba(18, 24, 38, 0.9);
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    color-scheme: light;
+    --bg-primary: #f8fafc;
+    --bg-surface: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
     --accent-blue: #3b82f6;
-    --caution-amber: #f59e0b;
+    --caution-amber: #d97706;
     --caution-amber-bg: rgba(245, 158, 11, 0.15);
-    --danger-red: #ef4444;
+    --danger-red: #dc2626;
     --danger-red-bg: rgba(239, 68, 68, 0.15);
     --radius-md: 10px;
 }
@@ -40,7 +41,8 @@ h1, h2 {
     background: var(--bg-surface);
     padding: 1.5rem;
     border-radius: var(--radius-md);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .metric-title {
@@ -72,7 +74,8 @@ h1, h2 {
     background: var(--bg-surface);
     padding: 1.5rem;
     border-radius: var(--radius-md);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .form-group {
@@ -84,12 +87,13 @@ label {
     color: var(--text-secondary);
     margin-bottom: 0.5rem;
     font-size: 0.875rem;
+    font-weight: 500;
 }
 
 input, select {
     width: 100%;
-    background: var(--bg-primary);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     color: var(--text-primary);
     padding: 0.75rem;
     border-radius: 6px;
@@ -97,9 +101,31 @@ input, select {
     box-sizing: border-box;
 }
 
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23475569%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+}
+
 input:focus, select:focus {
     outline: none;
     border-color: var(--accent-blue);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Explicitly style the date picker icon for light mode (WebKit) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0);
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
 }
 
 button.primary-btn {
@@ -111,17 +137,18 @@ button.primary-btn {
     font-weight: 600;
     cursor: pointer;
     width: 100%;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, background-color 0.2s;
 }
 
 button.primary-btn:hover {
-    opacity: 0.9;
+    background-color: #2563eb;
 }
 
 .table-container {
     background: var(--bg-surface);
     border-radius: var(--radius-md);
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     overflow: hidden;
 }
 
@@ -133,19 +160,20 @@ table {
 th, td {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 th {
     color: var(--text-secondary);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.875rem;
-    background: rgba(0,0,0,0.2);
+    background: #f1f5f9;
 }
 
 .row-paused {
-    opacity: 0.45;
-    filter: grayscale(80%);
+    opacity: 0.5;
+    filter: grayscale(100%);
+    background-color: #f8fafc;
     transition: all 0.3s;
 }
 
@@ -194,7 +222,7 @@ th {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255,255,255,0.2);
+    background-color: #cbd5e1;
     transition: .4s;
     border-radius: 34px;
 }
@@ -209,6 +237,7 @@ th {
     background-color: white;
     transition: .4s;
     border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 input:checked + .slider {
