@@ -1,0 +1,220 @@
+:root {
+    --bg-primary: #0b0f19;
+    --bg-surface: rgba(18, 24, 38, 0.9);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-blue: #3b82f6;
+    --caution-amber: #f59e0b;
+    --caution-amber-bg: rgba(245, 158, 11, 0.15);
+    --danger-red: #ef4444;
+    --danger-red-bg: rgba(239, 68, 68, 0.15);
+    --radius-md: 10px;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1, h2 {
+    font-weight: 600;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.metric-card {
+    background: var(--bg-surface);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.metric-title {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.value-amber {
+    color: var(--caution-amber);
+}
+
+.dashboard-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.form-container {
+    background: var(--bg-surface);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+label {
+    display: block;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+input, select {
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+
+button.primary-btn {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s;
+}
+
+button.primary-btn:hover {
+    opacity: 0.9;
+}
+
+.table-container {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+th {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    background: rgba(0,0,0,0.2);
+}
+
+.row-paused {
+    opacity: 0.45;
+    filter: grayscale(80%);
+    transition: all 0.3s;
+}
+
+.row-paused .service-cost {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.badge-renewing-soon {
+    background: var(--caution-amber-bg);
+    color: var(--caution-amber);
+    border-radius: var(--radius-md);
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge-overdue {
+    background: var(--danger-red-bg);
+    color: var(--danger-red);
+    border-radius: var(--radius-md);
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255,255,255,0.2);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--accent-blue);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}

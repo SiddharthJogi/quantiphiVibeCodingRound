@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Tracker & Renewal Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Renewal Dashboard</h1>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Monthly Cash-Flow Burn</div>
+                <div class="metric-value">$<span id="burnRate">0.00</span></div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Renewals in Next 7 Days</div>
+                <div class="metric-value" id="renewalsCountContainer"><span id="renewalsCount">0</span></div>
+            </div>
+        </div>
+
+        <div class="dashboard-section">
+            <div class="form-container">
+                <h2>Add Subscription</h2>
+                <form id="subForm">
+                    <div class="form-group">
+                        <label>Service Name</label>
+                        <input type="text" id="serviceName" required minlength="1" maxlength="100" placeholder="e.g. Netflix">
+                    </div>
+                    <div class="form-group">
+                        <label>Cost</label>
+                        <input type="number" id="cost" step="0.01" min="0.01" required placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Billing Cycle</label>
+                        <select id="billingCycle" required>
+                            <option value="MONTHLY">Monthly</option>
+                            <option value="YEARLY">Yearly</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Next Renewal Date</label>
+                        <input type="date" id="renewalDate" required>
+                    </div>
+                    <button type="submit" class="primary-btn">Add Service</button>
+                </form>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Cost</th>
+                            <th>Cycle</th>
+                            <th>Monthly Equiv</th>
+                            <th>Next Renewal</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subTableBody">
+                        <!-- Rows populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
