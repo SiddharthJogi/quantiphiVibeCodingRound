@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from uuid import UUID
 from typing import Any
-from datetime import datetime
+from datetime import datetime, timezone
 
 from models import (
     SubscriptionCreate,
@@ -77,7 +77,7 @@ async def toggle_subscription(id: UUID) -> dict[str, Any]:
     
     entity = SUBSCRIPTIONS[id]
     entity.status = SubscriptionStatus.PAUSED if entity.status == SubscriptionStatus.ACTIVE else SubscriptionStatus.ACTIVE
-    entity.updated_at = datetime.utcnow()
+    entity.updated_at = datetime.now(timezone.utc)
     
     metrics = get_dashboard_metrics()
     return {"id": str(id), "status": entity.status, "metrics": metrics.model_dump()}
@@ -91,7 +91,7 @@ async def update_subscription(id: UUID, sub: SubscriptionUpdate):
     update_data = sub.model_dump(exclude_unset=True)
     for key, value in update_data.items():
         setattr(entity, key, value)
-    entity.updated_at = datetime.utcnow()
+    entity.updated_at = datetime.now(timezone.utc)
     
     return compute_dto(entity)
 
@@ -106,3 +106,11 @@ async def delete_subscription(id: UUID) -> dict[str, Any]:
 @app.get("/api/v1/subscriptions/metrics", response_model=DashboardMetricsDTO)
 async def get_metrics():
     return get_dashboard_metrics()
+
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+
+frontend_dir = Path(__file__).parent.parent / "frontend"
+if frontend_dir.exists():
+    app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
+

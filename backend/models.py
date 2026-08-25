@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from enum import StrEnum
 from decimal import Decimal
 from uuid import UUID, uuid4
@@ -28,8 +28,8 @@ class SubscriptionUpdate(BaseModel):
 class SubscriptionEntity(SubscriptionCreate):
     id: UUID = Field(default_factory=uuid4)
     status: SubscriptionStatus = SubscriptionStatus.ACTIVE
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 # Computed (server adds these before sending to frontend)
 class ComputedSubscriptionDTO(BaseModel):

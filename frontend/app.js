@@ -1,4 +1,6 @@
-const API_URL = 'http://localhost:8000/api/v1/subscriptions';
+const API_URL = (window.location.origin && window.location.origin.startsWith('http')) 
+    ? `${window.location.origin}/api/v1/subscriptions` 
+    : 'http://localhost:8000/api/v1/subscriptions';
 
 async function fetchSubscriptions() {
     try {
@@ -46,9 +48,9 @@ function renderTable(subscriptions) {
 
         tr.innerHTML = `
             <td><strong>${sub.service_name}</strong></td>
-            <td class="service-cost">$${sub.cost.toFixed(2)}</td>
+            <td class="service-cost">₹${sub.cost.toFixed(2)}</td>
             <td>${sub.billing_cycle === 'MONTHLY' ? 'Mo' : 'Yr'}</td>
-            <td>$${sub.normalized_monthly_cost.toFixed(2)}</td>
+            <td>₹${sub.normalized_monthly_cost.toFixed(2)}</td>
             <td>
                 <div>${sub.next_renewal_date}</div>
                 <div style="margin-top: 4px;">${badgeHTML}</div>
