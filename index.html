@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Tracker</title>
+</head>
+<body>
+    <h1>Subscription Tracker & Renewal Dashboard</h1>
+
+    <h2>Metrics</h2>
+    <div>
+        <p>MONTHLY CASH-FLOW BURN: $<span id="burnRate">0.00</span></p>
+        <p>RENEWALS IN NEXT 7 DAYS: <span id="renewalsCount">0</span></p>
+    </div>
+
+    <h2>Add Subscription</h2>
+    <form id="subForm">
+        <label>Service Name: <input type="text" id="serviceName" required minlength="1" maxlength="100"></label><br>
+        <label>Cost: <input type="number" id="cost" step="0.01" min="0.01" required></label><br>
+        <label>Billing Cycle: 
+            <select id="billingCycle" required>
+                <option value="MONTHLY">Monthly</option>
+                <option value="YEARLY">Yearly</option>
+            </select>
+        </label><br>
+        <label>Next Renewal Date: <input type="date" id="renewalDate" required></label><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <h2>Subscriptions</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Cost</th>
+                <th>Cycle</th>
+                <th>Monthly Equiv</th>
+                <th>Next Renewal</th>
+                <th>Days Left</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="subTableBody">
+            <!-- Rows will be populated by JS -->
+        </tbody>
+    </table>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api/v1/subscriptions';
+
+        async function fetchSubscriptions() {
+            try {
+                const res = await fetch(API_URL);
+                if (!res.ok) throw new Error('Failed to fetch');
+                const data = await res.json();
+                
+                // Update Metrics
+                document.getElementById('burnRate').textContent = data.metrics.total_monthly_burn_rate.toFixed(2);
+                document.getElementById('renewalsCount').textContent = data.metrics.upcoming_renewals_count;
+
+                // Update Table
+                const tbody = document.getElementById('subTableBody');
+                tbody.innerHTML = '';
+                
+                data.subscriptions.forEach(sub => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${sub.service_name}</td>
+                        <td>$${sub.cost.toFixed(2)}</td>
+                        <td>${sub.billing_cycle}</td>
+                        <td>$${sub.normalized_monthly_cost.toFixed(2)}</td>
+                        <td>${sub.next_renewal_date}</td>
+                        <td>${sub.days_until_renewal}</td>
+                        <td>${sub.status}</td>
+                        <td><button onclick="toggleSubscription('${sub.id}')">Toggle</button></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function toggleSubscription(id) {
+            // Placeholder for toggle action in Step 4
+            console.log("Toggle clicked for", id);
+        }
+
+        document.getElementById('subForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const payload = {
+                service_name: document.getElementById('serviceName').value,
+                cost: parseFloat(document.getElementById('cost').value),
+                billing_cycle: document.getElementById('billingCycle').value,
+                next_renewal_date: document.getElementById('renewalDate').value
+            };
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (res.ok) {
+                    document.getElementById('subForm').reset();
+                    fetchSubscriptions();
+                } else {
+                    const error = await res.json();
+                    alert("Error: " + JSON.stringify(error));
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error creating subscription.");
+            }
+        });
+
+        // Initial fetch
+        fetchSubscriptions();
+    </script>
+</body>
+</html>
